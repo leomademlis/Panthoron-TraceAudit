@@ -1,60 +1,36 @@
 # 🏭 Panthoron TraceAudit Agent
 
-An autonomous, Agentic AI workflow designed to revolutionize Food Safety and Quality Assurance for the industrial food sector. Built for the Google AI Hackathon on Devpost.
+> A B2B Gemini-powered AI agent that transforms complex food manufacturing data (ERP, production logic, and logistics PDFs) into instant, autonomous product recalls.
 
-## 🚀 Overview
-When a contaminated raw material is detected on the factory floor, Panthoron acts as a digital Senior Quality Manager. Powered by the Google **Gemini 3.5 Flash** model, the Agent does not just converse; it autonomously uses custom Python tools (Function Calling) to solve complex traceability problems.
+## 📌 The Problem
+When a food contamination crisis hits, every second counts. Tracing a contaminated raw material (e.g., *E. coli*) through complex ERP systems, dynamic freezing tunnels, and scattered shipping documents takes hours of manual panic. Delays in food safety don't just cost money; they cost lives.
 
-## 🛠️ Key Features
-* **Agentic Function Calling:** Uses custom Python tools to perform rigid, deterministic tasks.
-* **Dynamic Time Calculations:** Mathematically calculates physical factory constraints (conveyor belt times + freezing tunnel duration) to pinpoint precise contamination windows.
-* **ERP & Logistics Mock Integration:** Simulates retrieving carton LPNs from production databases and scanning Google Drive PDFs to track shipped pallets to their final customers.
-* **Automated URGENT RECALL REPORTING:** Outputs a perfectly structured, English-language quarantine report in under 10 seconds, ready for management and IFS/BRC audits.
+## 🚀 The Solution
+Panthoron TraceAudit is a fully autonomous digital Senior Quality Manager deployed on Google Cloud Run. Triggered by a single urgent email, the AI agent executes a sophisticated multi-tool chain:
+* **ERP Query:** Extracts the contaminated lot number and finds the exact line drop time.
+* **Mathematical Logic:** Calculates physical factory constraints (conveyor + freezing tunnel times) to pinpoint the exact exit time.
+* **Inventory Tracking:** Cross-references the mock database to isolate the specific Master Pallet (LPN).
+* **Logistics Analysis:** Scans mocked shipping PDFs to intercept moving trucks, extracting license plates and customer data.
 
-## 💻 Tech Stack
-* Python
-* `google-genai` SDK
-* **Google Gemini 3.5 Flash**
-* Google Colab (PoC Environment)
+Within 20 seconds, it synthesizes this data into an official, actionable Urgent Recall Report.
 
-## ⚠️ Note for Judges
-This repository contains the Proof of Concept (PoC) code demonstrating the Agentic Workflow. For the hackathon demo, the Google Workspace (Drive/Sheets) integrations and ERP databases are mocked via Python functions to ensure a stable, frictionless presentation of the AI's autonomous reasoning and tool-calling capabilities.
+## 🛠️ Tech Stack
+* **AI Brain:** Google Gemini 3.5 Flash (via `google-genai` SDK)
+* **Architecture:** Agentic Function Calling (Multi-tool reasoning)
+* **Infrastructure:** Google Cloud Run (Stateless microservice)
+* **Language:** Python 3
 
----
+## ⚡ Try it Live (For Judges)
+Panthoron is deployed live on Google Cloud Run. You can trigger the Agent and see it autonomously resolve the crisis right from your terminal.
 
-## ⚙️ How to Run (Spin-up Instructions)
+Open your terminal (Mac/Linux) or Google Cloud Shell and paste the following command:
 
-Follow these step-by-step instructions to reproduce the Agent's workflow from scratch. 
-*Note: Because this is a Proof of Concept (PoC) built for the hackathon, the Google Workspace APIs (Sheets & Drive) are mocked via Python functions. You do not need to configure OAuth 2.0 or Service Accounts to run this demo!*
+```bash
+curl -s -X POST [https://panthoron-agent-778793548190.europe-west1.run.app/run-audit](https://panthoron-agent-778793548190.europe-west1.run.app/run-audit) \
+-H "Content-Type: application/json" \
+-d '{
+  "crisis_email": "URGENT NOTIFICATION FROM SUPPLIER: We just detected severe Escherichia coli (E. coli) contamination in Raw Material Lot: 260707AH. Please investigate immediately.",
+  "api_key": "YOUR_GEMINI_API_KEY"
+}' | jq -r '.recall_report'
 
-### Step 1: Open the Environment
-We recommend running this project in **Google Colab** for a frictionless experience.
-1. Download the `Panthoron_TraceAudit_Agent(2).ipynb` file from this repository.
-2. Go to [Google Colab](https://colab.research.google.com/) and upload the notebook.
-
-### Step 2: Install Dependencies
-The project uses the latest Google GenAI SDK. Run the very first cell in the notebook to install it:
-```python
-!pip install -q -U google-genai
-
-Step 3: Insert Your API Key
-
-To run the Gemini 3.5 Flash model, you need an API key from Google AI Studio / Cloud Console.
-
-    Locate the main code block in the notebook.
-
-    Find this line: GOOGLE_API_KEY = "YOUR_API_KEY_HERE"
-
-    Replace "YOUR_API_KEY_HERE" with your actual API key (keep the quotation marks).
-
-Step 4: Execute the Agent
-
-    Run the code block.
-
-    The script will initialize the Panthoron TraceAudit Agent persona and pass a simple crisis email containing ONLY the contaminated Lot Number.
-
-    Scroll down to see the Agent autonomously reasoning and invoking its four tools sequentially (fetch_lot_production_data, calculate_quarantine_window, search_boxes_in_google_sheets, scan_google_drive_for_shipping) to uncover the full traceability path without human intervention.
-
-Step 5: Expected Output
-
-Within 5-10 seconds, the model will output a fully structured OFFICIAL URGENT RECALL REPORT in the console, confirming the pallet's LPN, the blocked status, and the shipping details.
+(Note: Please allow 15-30 seconds for the Agent to execute its function chain and stream back the formatted Official Recall Report.)
