@@ -33,3 +33,5 @@ curl -s -X POST [https://panthoron-agent-778793548190.europe-west1.run.app/run-a
   "crisis_email": "URGENT NOTIFICATION FROM SUPPLIER: We just detected severe Escherichia coli (E. coli) contamination in Raw Material Lot: 260707AH. Please investigate immediately.",
   "api_key": "YOUR_GEMINI_API_KEY"
 }' | jq -r '.recall_report'
+
+(Note: Please allow a few seconds for the Agent to execute its function chain and stream back the formatted Official Recall Report.)
