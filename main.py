@@ -14,7 +14,7 @@ class TraceRequest(BaseModel):
     api_key: str
 
 # ------------------------------------------------------------------------------
-# 1. ΤΑ 4 ΕΡΓΑΛΕΙΑ ΤΟΥ AGENT (Όπως ακριβώς τα έγραψες)
+# 1. THE 4 TOOLS OF THE AGENT
 # ------------------------------------------------------------------------------
 def fetch_lot_production_data(lot_number: str) -> str:
     """Queries the ERP database to find exactly where and when a contaminated raw material lot was used."""
@@ -38,7 +38,7 @@ def scan_google_drive_for_shipping(pallet_lpn: str) -> str:
     return "CRITICAL: Pallet LPN-260724-7153 has been shipped. Document matched: '24072026FINAL.pdf'. Customer: M. OGKOUNSOTO M.IKE, Address: Tsimiski 82, Thessaloniki. Loading Vehicle: NBX7849."
 
 # ------------------------------------------------------------------------------
-# 2. ΤΟ ENDPOINT ΤΟΥ CLOUD RUN
+# 2. THE ENDPOINT OF CLOUD RUN
 # ------------------------------------------------------------------------------
 @app.post("/run-audit")
 def run_audit(request: TraceRequest):
